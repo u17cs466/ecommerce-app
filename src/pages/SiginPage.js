@@ -6,10 +6,9 @@ const handleClick=(e)=>{
 const newForm = {...formData}
 newForm[e.target.name]= e.target.value;
 setFormData(newForm)
+console.log(formData)
 
 }
-
-
   return (
     <div className=" px-10 py-12 mt-10 bg-gray-100 space-y-3 rounded-md max-w-md mx-auto ">
       <form onChange={handleClick} >
