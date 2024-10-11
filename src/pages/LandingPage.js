@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 
 export default function LandingPage() {
     return (<>
-<div className="m-20 text-center uppercase ">welcome to my village</div>
+        <div className="m-20 text-center uppercase ">welcome to my village</div>
+        <image src=""></image>
     </>)
 
 }

@@ -1,103 +1,172 @@
 import React, { useState } from 'react';
 import { signUpRequest } from '../Requests/authRequest';
+import backgroundImage from '../images/image.png';
+
+
 
 function SignUp(props) {
-  console.log(props);
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
 
-  const handleClick = (e) => {
+  const handleChange = (e) => {
     const newForm = { ...formData };
     newForm[e.target.name] = e.target.value;
     setFormData(newForm);
-    console.log(newForm);
-    console.log(e.target.value);
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (formData.password !== formData.confirmpassword) {
-      setError('password do not match please check');
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match, please check.');
     } else {
       setError(null);
       signUpRequest(formData).then((data) => {
         if (data.status === 'success') {
-          localStorage.setItem('authToken', data.token);
-
-          props.history.push('/HomePage');
-
-         props.setLoggedInUser(data.data);
+          props.history.push('/home');
+          props.setLoggedInUser(data.data);
         } else {
           if (data.status === 'fail') {
             if (data.data.keyPattern && data.data.keyPattern.email) {
-              setError('Email Exists');
+              setError('Email already exists.');
             } else {
-              setError('check inputs carefully');
+              setError('Please check your inputs carefully.');
             }
           } else {
-            setError('Some Error Occured, please try again in some time.');
+            setError('Some error occurred, please try again later.');
           }
         }
       });
     }
-
-    console.log(formData);
   };
+
   return (
-    <div className=' px-10 py-12 mt-10 bg-gray-100 space-y-3 rounded-md max-w-md mx-auto '>
-      <form onChange={handleClick} onSubmit={handleSubmit}>
-        <div className=' space-x-4  h-11'>
-          <label className='p-2'>FullName</label>
-          <input
-            className=' rounded-sm border-2 m-2 outline-none'
-            placeholder='fullname'
-            type='fullname'
-            name='fullname'
-          />
-        </div>
-        <div className=' space-x-4  h-11'>
-          <label className='p-2'>Email</label>
-          <input
-            className=' rounded-sm border-2 m-2 outline-none'
-            placeholder='email'
-            type='email'
-            name='email'
-          />
-        </div>
-        <div className=' space-x-4  h-11'>
-          <label className='p-2'>phone</label>
-          <input
-            className=' rounded-sm border-2 m-2 outline-none'
-            placeholder='phone'
-            type='number'
-            name='phone'
-          />
-        </div>
-        <div className=' space-x-4  h-11'>
-          <label className='p-2'>Password</label>
-          <input
-            className=' rounded-sm border-2 m-2 outline-none'
-            placeholder='password'
-            type='password'
-            name='password'
-          />
-        </div>
-        <div className=' space-x-4 h-11 '>
-          <label className='p-2'>Confirm Password</label>
-          <input
-            className=' rounded-sm border-2 m-2 outline-none'
-            placeholder='confirm password'
-            type='password'
-            name='confirmpassword'
-          />
-          {error}
-        </div>
-        <div>
-          <button className='h-9 w-20 mt-7 bg-gray-500' type='submit'>
-            signup
-          </button>
-        </div>
-      </form>
+    <div
+      className="min-h-screen bg-cover bg-center flex items-center justify-center py-8"
+      style={{ backgroundImage: `url(${backgroundImage})` }} // Replace with your image URL
+    >
+      <div className="bg-white bg-opacity-90 shadow-md rounded-lg px-8 py-8 max-w-md w-full">
+        <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Sign Up</h2>
+        <form onSubmit={handleSubmit}>
+          {/* Full Name */}
+          <div className="mb-3">
+            <label className="block text-gray-700 font-medium mb-1">Full Name
+              <span className="text-red-500">*</span>
+            </label>
+            <input
+              className="w-full px-2 py-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none transition duration-200 ease-in-out"
+              placeholder="Enter your full name"
+              type="text"
+              name="name"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          {/* Username */}
+          <div className="mb-3">
+            <label className="block text-gray-700 font-medium mb-1">Username
+              <span className="text-red-500">*</span>
+            </label>
+            <input
+              className="w-full px-2 py-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none transition duration-200 ease-in-out"
+              placeholder="Choose a username"
+              type="text"
+              name="userName"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          {/* Age */}
+          <div className="mb-3">
+            <label className="block text-gray-700 font-medium mb-1">Age
+              <span className="text-red-500">*</span>
+            </label>
+            <input
+              className="w-full px-2 py-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none transition duration-200 ease-in-out"
+              placeholder="Enter your age"
+              type="number"
+              name="age"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          {/* Email */}
+          <div className="mb-3">
+            <label className="block text-gray-700 font-medium mb-1">Email
+              <span className="text-red-500">*</span>
+            </label>
+            <input
+              className="w-full px-2 py-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none transition duration-200 ease-in-out"
+              placeholder="Enter your email"
+              type="email"
+              name="email"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          {/* Phone */}
+          <div className="mb-3">
+            <label className="block text-gray-700 font-medium mb-1">Phone
+              <span className="text-red-500">*</span>
+            </label>
+            <input
+              className="w-full px-2 py-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none transition duration-200 ease-in-out"
+              placeholder="Enter your phone number"
+              type="number"
+              name="phone"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          {/* Password */}
+          <div className="mb-3">
+            <label className="block text-gray-700 font-medium mb-1">Password
+              <span className="text-red-500">*</span>
+            </label>
+            <input
+              className="w-full px-2 py-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none transition duration-200 ease-in-out"
+              placeholder="Enter your password"
+              type="password"
+              name="password"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          {/* Confirm Password */}
+          <div className="mb-3">
+            <label className="block text-gray-700 font-medium mb-1">Confirm Password
+              <span className="text-red-500">*</span>
+            </label>
+            <input
+              className="w-full px-2 py-1 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-indigo-400 focus:outline-none transition duration-200 ease-in-out"
+              placeholder="Confirm your password"
+              type="password"
+              name="confirmPassword"
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          {/* Error Message */}
+          {error && <div className="text-red-500 text-sm mb-4">{error}</div>}
+
+          {/* Submit Button */}
+          <div className="text-center">
+            <button
+              className="w-full py-2 bg-indigo-500 hover:bg-indigo-600 text-white font-bold rounded-lg shadow-md focus:outline-none focus:ring-4 focus:ring-indigo-300 transition duration-300 ease-in-out"
+              type="submit"
+            >
+              Sign Up
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
