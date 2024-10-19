@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 
+
 function HomePage(props) {
+
+
     useEffect(() => {
         const userData = localStorage.getItem('authToken');
         if (userData) {
-            //props.setLoggedInUser(JSON.parse(userData));
+
             props.history.push('/home'); // Redirect to homepage if user is already logged in
         }
     }, []);
